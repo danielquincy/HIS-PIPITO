@@ -1,0 +1,17 @@
+#view-pantallas .iam-data-table td:nth-child(3) {
+  /* Ruta: puede ser larga */
+  max-width: 45%;
+}
+
+
+.btn-fluent.iam-btn-delete-pantalla {
+  background: #fff;
+  color: #a4262c;
+  border: 1px solid #a4262c;
+}
+
+.btn-fluent.iam-btn-delete-pantalla:hover {
+  background: #fde7e9;
+  color: #8b0000;
+  border-color: #8b0000;
+}

@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Logo marca — /img/logo-pipitos.png */
+.his-sidebar-brand-logo {
+  display: block;
+  max-width: 140px;
+}
+
+.his-topbar-brand-logo {
+  display: block;
+  max-width: 120px;
+}
+
+.sidebar-item-active {
+  background-color: #0369a1;
+  border-right: 4px solid #38bdf8;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.voucher-font {
+  font-family: 'Space Mono', monospace;
+}
+.serrated-edge {
+  background-image: radial-gradient(circle, transparent 50%, white 50%);
+  background-size: 10px 10px;
+  background-repeat: repeat-x;
+  height: 10px;
+  width: 100%;
+}
+
+/* Recursos: rellenar el viewport (sin scroll del main), barra de pestañas fija, scroll interno */
+main:has(.rec-page-root) {
+  overflow: hidden;
+}
+#page-root:has(.rec-page-root) {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.rec-page-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+.rec-page-intro {
+  flex: 0 0 auto;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+}
+.rec-tabs-wrap {
+  flex: 0 0 auto;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid var(--fluent-border, #e1dfdd);
+  border-radius: var(--fluent-radius, 4px);
+  overflow: hidden;
+}
+.esp-tabstrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  background: #f3f2f1;
+  border-bottom: 1px solid var(--fluent-border, #e1dfdd);
+}
+.esp-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  border: none;
+  border-right: 1px solid #e1dfdd;
+  border-radius: 0;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #605e5c;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1.2;
+  transition: background 0.12s, color 0.12s;
+}
+.esp-tab i {
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.9;
+}
+.esp-tab:hover:not(.is-active):not(.esp-form-primary) {
+  background: #edebe9;
+  color: #323130;
+}
+.esp-tab.is-active,
+.esp-tab.esp-form-primary {
+  color: #fff;
+  background: #0078d4;
+  box-shadow: none;
+  position: static;
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 2px solid #005a9e;
+  margin-bottom: -1px;
+  border-right-color: rgba(0, 0, 0, 0.08);
+}
+.esp-tab.is-active i,
+.esp-tab.esp-form-primary i {
+  color: #fff;
+  opacity: 1;
+}
+.rec-page-panels {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.rec-page-panels > .rec-page-panel {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+#rec-panel-recursos {
+  margin-top: 0;
+  padding-top: 0;
+}
+/* Split en Recursos: ocupa el alto del panel, sin forzar 700px/82vh del shell global */
+.rec-page-root .rec-esp-split.esp-split-layout {
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  width: 100%;
+}
+.rec-page-root .rec-esp-split .esp-form-panel {
+  overflow-y: auto;
+}
+.rec-panel-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.rec-panel-table-wrap {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: auto;
+}
+#rec-panel-detalle .rec-panel-card h4,
+#rec-panel-reservas .rec-panel-card h4 {
+  flex: 0 0 auto;
+}
+#rec-panel-detalle .esp-tree-search-wrap,
+#rec-panel-reservas .esp-tree-search-wrap {
+  flex: 0 0 auto;
+}
+#rec-panel-detalle .esp-staff-pagination,
+#rec-panel-reservas .esp-staff-pagination {
+  flex: 0 0 auto;
+}
+/* Tabla de catálogo: filas bajas */
+table.rec-catalog-table th,
+table.rec-catalog-table td {
+  padding: 4px 8px;
+  vertical-align: middle;
+  line-height: 1.25;
+}
+table.rec-catalog-table th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.rec-col-edit-th {
+  width: 2.5rem;
+  text-align: center;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.rec-col-edit {
+  width: 2.5rem;
+  text-align: center;
+  vertical-align: middle;
+  padding: 2px 4px;
+}
+.rec-name-cell {
+  min-width: 0;
+  word-break: break-word;
+}
+.rec-row-edit.btn-fluent {
+  min-width: 0;
+  min-height: 0;
+  padding: 1px 5px;
+  line-height: 1;
+  font-size: 0;
+  border-radius: var(--fluent-radius, 4px);
+}
+.rec-row-edit.btn-fluent i {
+  font-size: 12px;
+  line-height: 1;
+}
+.rec-row-edit:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 1px;
+}

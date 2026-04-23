@@ -1,0 +1,37 @@
+/* Selector de pantallas en formulario de rol */
+.iam-role-pantallas-block {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--fluent-border);
+}
+
+.iam-role-pantallas-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--fluent-text);
+}
+
+.iam-role-pantallas-toolbar {
+  margin-bottom: 8px;
+}
+
+.iam-role-pantallas-table-wrap {
+  max-height: min(320px, 42vh);
+  border: 1px solid var(--fluent-border);
+  border-radius: 6px;
+  background: #faf9f8;
+}
+
+.iam-role-pantallas-table .iam-col-check {
+  width: 2.5rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.iam-role-pantallas-table .iam-col-check input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}

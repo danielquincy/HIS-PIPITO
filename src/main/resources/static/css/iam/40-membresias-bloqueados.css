@@ -1,0 +1,68 @@
+.iam-badge-bloqueado {
+  background: #fff4ce;
+  color: #8a6116;
+}
+
+/* Bloque de roles en panel */
+.iam-role-checks-scroll {
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  padding: 4px 0;
+  border: 1px solid var(--fluent-border);
+  border-radius: 6px;
+  background: #faf9f8;
+  padding: 10px 14px;
+}
+
+.iam-role-checks-scroll label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.iam-detail-dl {
+  display: grid;
+  grid-template-columns: minmax(120px, 160px) 1fr;
+  gap: 10px 20px;
+  font-size: 13px;
+  margin: 0 0 8px;
+  align-items: start;
+}
+
+.iam-detail-dl dt {
+  margin: 0;
+  color: var(--fluent-text-secondary);
+  font-weight: 600;
+}
+
+.iam-detail-dl dd {
+  margin: 0;
+  color: var(--fluent-text);
+}
+
+/* Membresías: igualar estilo del panel derecho con Pantallas/Roles/Usuarios */
+.iam-membresias-detail-form {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.iam-membresias-roles-block {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.iam-membresias-roles-toolbar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.iam-membresias-roles-table-wrap {
+  margin: 0;
+  min-height: 260px;
+}

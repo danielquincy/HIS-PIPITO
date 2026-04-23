@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IAM — HIS-PIPITOS</title>
+    <link rel="stylesheet" href="/css/tailwind-app.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/shell.css" />
+    <link rel="stylesheet" href="/css/iam.css" />
+  </head>
+  <body class="shell-body">
+    <div class="app-shell" id="iam-app-shell">
+      <aside class="app-sidebar" id="iam-sidebar" aria-label="Menú principal IAM">
+        <div class="app-brand app-brand-iam">
+          <span class="app-brand-text">IAM</span>
+          <span class="app-brand-sub">Identidad y acceso</span>
+        </div>
+        <nav class="app-nav">
+          <a href="#inicio" data-view="inicio"><span class="nav-ico">⌂</span> Inicio</a>
+          <a href="#pantallas" data-view="pantallas"><span class="nav-ico">▣</span> Pantallas</a>
+          <a href="#roles" data-view="roles"><span class="nav-ico">◈</span> Roles</a>
+          <a href="#usuarios" data-view="usuarios"><span class="nav-ico">👤</span> Usuarios</a>
+          <a href="#membresias" data-view="membresias"><span class="nav-ico">🔗</span> Membresías</a>
+          <a href="#bloqueados" data-view="bloqueados"><span class="nav-ico">🔒</span> Bloqueados</a>
+        </nav>
+      </aside>
+      <div class="app-column">
+        <header class="app-topbar">
+          <button
+            type="button"
+            class="iam-hamburger-btn"
+            id="nav-hamburger"
+            aria-label="Ocultar menú lateral"
+            aria-expanded="true"
+            aria-controls="iam-sidebar"
+            title="Mostrar u ocultar el menú"
+          >
+            ☰
+          </button>
+          <h1 id="iam-page-title">Inicio</h1>
+          <div class="app-topbar-actions">
+            <span id="session-user-name" class="shell-session-name shell-session-name--on-blue" title=""></span>
+            <div class="shell-session-dropdown shell-session-dropdown--on-blue" id="session-actions-dropdown" data-shell-dropdown>
+              <button
+                type="button"
+                class="shell-session-dropdown-trigger shell-logout-btn shell-logout-btn--on-blue"
+                id="session-dropdown-trigger"
+                aria-expanded="false"
+                aria-haspopup="menu"
+              >
+                <span>Acciones</span>
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div class="shell-session-dropdown-panel" role="menu" hidden>
+                <a href="/launcher.html" class="shell-session-dropdown-item" role="menuitem"><i class="fa-solid fa-house"></i> Inicio</a>
+                <button type="button" class="shell-session-dropdown-item" id="logout" role="menuitem">
+                  <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Cerrar sesión
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="app-body">
+          <div id="iam-alert" class="dyn-alert" style="display: none"></div>
+
+          <section id="view-inicio" class="iam-view app-view active">
+            <div class="iam-page-frame">
+              <div class="iam-panel-head">
+                <h2 class="iam-panel-title">Bienvenida</h2>
+                <p class="iam-panel-desc">
+                  Administración de identidad y acceso. Elija una sección en el menú lateral o use el resumen siguiente.
+                </p>
+              </div>
+              <div class="iam-page-frame-body iam-home-body">
+                <div class="iam-home-card">
+                  <h3 class="iam-home-title">Módulos disponibles</h3>
+                  <p class="iam-home-lead">
+                    Gestione pantallas y menús del HIS, roles y sus pantallas asociadas, usuarios, membresías y cuentas bloqueadas.
+                  </p>
+                  <ul class="iam-home-list">
+                    <li><strong>Pantallas</strong> — catálogo de entradas del menú clínico (menús y pantallas).</li>
+                    <li><strong>Roles</strong> — catálogo de roles y qué pantallas del menú puede usar cada uno.</li>
+                    <li><strong>Usuarios</strong> — altas y edición de cuentas.</li>
+                    <li><strong>Membresías</strong> — asignación de roles a usuarios.</li>
+                    <li><strong>Bloqueados</strong> — cuentas bloqueadas por intentos fallidos.</li>
+                  </ul>
+                  <p class="iam-home-foot">
+                    Para volver al portal de aplicaciones use <strong>Acciones → Inicio</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Pantallas -->
+          <section id="view-pantallas" class="iam-view app-view iam-view-split">
+            <div class="iam-master-detail">
+              <div class="iam-list-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title">Pantallas</h2>
+                  <p class="iam-panel-desc">
+                   Módulos y Pantallas del Sistema.
+                  </p>
+                </div>
+                <div class="iam-toolbar">
+                  <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                    <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" id="pantallas-search" placeholder="Buscar por código, nombre, tipo o ruta…" autocomplete="off" aria-label="Buscar pantallas" />
+                  </div>
+                  <div class="iam-toolbar-actions">
+                    <button type="button" class="btn-fluent" id="btn-pantalla-new"><i class="fa-solid fa-plus"></i> Agregar</button>
+                  </div>
+                </div>
+                <div class="iam-table-scroll">
+                  <table class="dyn-table iam-data-table" id="pantallas-table">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Ruta</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="pantallas-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="iam-pagination-wrap" id="pantallas-pagination" aria-label="Paginación"></div>
+              </div>
+              <div class="iam-detail-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title" id="pantalla-form-title">Nueva pantalla</h2>
+                  <p class="iam-panel-desc" id="pantalla-form-sub">
+                    Menú: agrupa entradas sin URL propia (ruta #). Pantalla: hoja con ruta real. Asigne roles en «Roles por pantalla».
+                  </p>
+                </div>
+                <form id="pantalla-form" class="iam-pantalla-form" onsubmit="return false">
+                  <div class="iam-pantalla-form-grid">
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="p-codigo">Código</label>
+                      <input type="text" id="p-codigo" autocomplete="off" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="p-nombre">Nombre</label>
+                      <input type="text" id="p-nombre" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="p-tipo">Tipo</label>
+                      <select id="p-tipo" aria-label="Tipo de entrada">
+                        <option value="PANTALLA">Pantalla</option>
+                        <option value="MENU">Menú</option>
+                      </select>
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="p-orden">Orden</label>
+                      <input type="number" id="p-orden" value="0" min="0" step="1" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field iam-span-2">
+                      <label for="p-parent">Menú padre</label>
+                      <select id="p-parent" aria-label="Menú padre">
+                        <option value="">(Raíz)</option>
+                      </select>
+                    </div>
+                    <div class="dyn-field iam-pantalla-field iam-span-2" id="p-ruta-row">
+                      <label for="p-ruta">Ruta</label>
+                      <input type="text" id="p-ruta" placeholder="/app/pages/....html" autocomplete="off" />
+                    </div>
+                    <div class="iam-pantalla-activa-row iam-span-2">
+                      <span class="iam-pantalla-activa-label iam-caption-activa" id="p-activo-caption">Activa</span>
+                      <div class="iam-switch" title="Estado de la pantalla en el menú">
+                        <input type="checkbox" id="p-activo" class="iam-switch-input" checked role="switch" aria-checked="true" aria-labelledby="p-activo-caption" />
+                        <label for="p-activo" class="iam-switch-track"><span class="iam-switch-thumb"></span></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="iam-form-actions">
+                    <button type="button" class="btn-fluent" id="btn-pantalla-save">Guardar</button>
+                    <button type="button" class="btn-fluent iam-btn-cancel" id="btn-pantalla-clear">Cancelar</button>
+                    <button type="button" class="btn-fluent iam-btn-delete-pantalla" id="btn-pantalla-delete" style="display: none">
+                      Eliminar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <!-- Roles (catálogo + pantallas por rol) -->
+          <section id="view-roles" class="iam-view app-view iam-view-split">
+            <div class="iam-master-detail">
+              <div class="iam-list-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title">Roles</h2>
+                  <p class="iam-panel-desc">
+                    Roles del sistema por pantallas.
+                  </p>
+                </div>
+                <div class="iam-toolbar">
+                  <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                    <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" id="roles-search" placeholder="Buscar por código o nombre…" autocomplete="off" aria-label="Buscar roles" />
+                  </div>
+                  <div class="iam-toolbar-actions">
+                    <button type="button" class="btn-fluent" id="btn-role-new"><i class="fa-solid fa-plus"></i> Agregar</button>
+                  </div>
+                </div>
+                <div class="iam-table-scroll">
+                  <table class="dyn-table iam-data-table" id="roles-table">
+                    <thead>
+                      <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="roles-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="iam-pagination-wrap" id="roles-pagination" aria-label="Paginación"></div>
+              </div>
+              <div class="iam-detail-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title" id="role-form-title">Nuevo rol</h2>
+                  <p class="iam-panel-desc" id="role-form-sub">
+                    Defina el código y el nombre. Marque las pantallas del menú a las que este rol tendrá acceso.
+                  </p>
+                </div>
+                <form id="role-form" class="iam-pantalla-form" onsubmit="return false">
+                  <div class="iam-pantalla-form-grid">
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="r-codigo">Código</label>
+                      <input type="text" id="r-codigo" autocomplete="off" placeholder="Ej. AUDITOR" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="r-nombre">Nombre</label>
+                      <input type="text" id="r-nombre" autocomplete="off" />
+                    </div>
+                    <div class="iam-pantalla-activa-row iam-span-2">
+                      <span class="iam-pantalla-activa-label iam-caption-activa" id="r-activo-caption">Activo</span>
+                      <div class="iam-switch" title="Estado del rol">
+                        <input type="checkbox" id="r-activo" class="iam-switch-input" checked role="switch" aria-labelledby="r-activo-caption" />
+                        <label for="r-activo" class="iam-switch-track"><span class="iam-switch-thumb"></span></label>
+                      </div>
+                    </div>
+                    <div class="iam-role-pantallas-block iam-span-2">
+                      <span class="iam-role-pantallas-label">Pantallas asociadas</span>
+                      <div class="iam-toolbar iam-role-pantallas-toolbar">
+                        <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                          <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                          <input
+                            type="search"
+                            id="role-pantallas-search"
+                            placeholder="Buscar pantalla por nombre, código o ruta…"
+                            autocomplete="off"
+                            aria-label="Buscar pantallas para asociar"
+                          />
+                        </div>
+                      </div>
+                      <div class="iam-table-scroll iam-role-pantallas-table-wrap">
+                        <table class="dyn-table iam-data-table iam-role-pantallas-table">
+                          <thead>
+                            <tr>
+                              <th class="iam-col-check"></th>
+                              <th>Nombre</th>
+                              <th>Código</th>
+                              <th>Tipo</th>
+                            </tr>
+                          </thead>
+                          <tbody id="role-pantallas-tbody"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="iam-form-actions">
+                    <button type="button" class="btn-fluent" id="btn-role-save">Guardar</button>
+                    <button type="button" class="btn-fluent iam-btn-cancel" id="btn-role-clear">Cancelar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <!-- Usuarios -->
+          <section id="view-usuarios" class="iam-view app-view iam-view-split">
+            <div class="iam-master-detail">
+              <div class="iam-list-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title">Usuarios</h2>
+                  <p class="iam-panel-desc">Cuentas de inicio de sesión del sistema.</p>
+                </div>
+                <div class="iam-toolbar">
+                  <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                    <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" id="users-search" placeholder="Buscar por usuario o nombre…" autocomplete="off" aria-label="Buscar usuarios" />
+                  </div>
+                  <div class="iam-toolbar-actions">
+                    <button type="button" class="btn-fluent" id="btn-user-new"><i class="fa-solid fa-plus"></i> Agregar</button>
+                  </div>
+                </div>
+                <div class="iam-table-scroll">
+                  <table class="dyn-table iam-data-table" id="users-table">
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="users-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="iam-pagination-wrap" id="users-pagination" aria-label="Paginación"></div>
+              </div>
+              <div class="iam-detail-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title" id="user-form-title">Nuevo usuario</h2>
+                  <p class="iam-panel-desc" id="user-form-desc">
+                    Los campos con * son obligatorios.
+                  </p>
+                </div>
+                <form id="user-form" class="iam-pantalla-form" onsubmit="return false">
+                  <div class="iam-pantalla-form-grid">
+                    <div class="dyn-field iam-pantalla-field iam-span-2">
+                      <label for="u-username">Nombre usuario <span class="iam-req">*</span></label>
+                      <input type="text" id="u-username" autocomplete="username" required />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="u-primer-nombre">1er. nombre <span class="iam-req">*</span></label>
+                      <input type="text" id="u-primer-nombre" autocomplete="given-name" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="u-segundo-nombre">2do. nombre</label>
+                      <input type="text" id="u-segundo-nombre" autocomplete="additional-name" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="u-primer-apellido">1er. apellido <span class="iam-req">*</span></label>
+                      <input type="text" id="u-primer-apellido" autocomplete="family-name" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="u-segundo-apellido">2do. apellido</label>
+                      <input type="text" id="u-segundo-apellido" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field iam-span-2">
+                      <label for="u-email">Correo electrónico</label>
+                      <input type="email" id="u-email" autocomplete="email" />
+                    </div>
+                    <div class="dyn-field iam-pantalla-field" id="u-password-wrap">
+                      <label for="u-password">Contraseña</label>
+                      <div class="iam-user-password-main">
+                        <input type="password" id="u-password" class="iam-user-password-input" autocomplete="new-password" />
+                        <button type="button" class="iam-user-password-gen" id="u-gen-btn" title="Generar contraseña" aria-label="Generar contraseña">
+                          <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="iam-user-password-eye" id="u-password-eye" title="Mostrar u ocultar contraseña" aria-label="Mostrar u ocultar contraseña">
+                          <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div class="iam-user-password-options">
+                        <label class="iam-inline-check">
+                          <input type="checkbox" id="u-temporal" /> Temporal
+                        </label>
+                      </div>
+                    </div>
+                    <div class="dyn-field iam-pantalla-field">
+                      <label for="u-expira">Expiración cuenta</label>
+                      <div class="iam-user-date-composite">
+                        <input type="date" id="u-expira" />
+                        <button type="button" class="iam-user-date-btn" id="u-expira-cal" title="Abrir calendario" aria-label="Abrir calendario">
+                          <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="iam-user-date-btn" id="u-expira-clear" title="Limpiar fecha" aria-label="Limpiar fecha">
+                          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="iam-pantalla-activa-row iam-span-2" id="u-enabled-wrap" style="display: none">
+                      <span class="iam-pantalla-activa-label iam-caption-activa" id="u-enabled-caption">Activo</span>
+                      <div class="iam-switch" title="Cuenta habilitada o deshabilitada">
+                        <input type="checkbox" id="u-enabled" class="iam-switch-input" checked role="switch" aria-labelledby="u-enabled-caption" />
+                        <label for="u-enabled" class="iam-switch-track"><span class="iam-switch-thumb"></span></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="iam-form-actions">
+                    <button type="button" class="btn-fluent" id="btn-user-save">Guardar</button>
+                    <button type="button" class="btn-fluent btn-fluent-secondary iam-btn-cancel" id="btn-user-clear">Cancelar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <!-- Membresías -->
+          <section id="view-membresias" class="iam-view app-view iam-view-split">
+            <div class="iam-master-detail">
+              <div class="iam-list-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title">Membresías</h2>
+                  <p class="iam-panel-desc">
+                    Asignación de roles a usuarios del sistema.
+                    roles.
+                  </p>
+                </div>
+                <div class="iam-toolbar">
+                  <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                    <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" id="membresias-search" placeholder="Buscar usuario…" autocomplete="off" aria-label="Buscar en membresías" />
+                  </div>
+                </div>
+                <div class="iam-table-scroll">
+                  <table class="dyn-table iam-data-table">
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                      </tr>
+                    </thead>
+                    <tbody id="membresias-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="iam-pagination-wrap" id="membresias-pagination" aria-label="Paginación"></div>
+              </div>
+              <div class="iam-detail-panel" id="membresias-detail-wrap">
+                <div id="membresias-detail-empty" class="iam-detail-empty">
+                  <i class="fa-solid fa-user-pen" aria-hidden="true"></i>
+                  <strong>Seleccione un usuario</strong>
+                  <span>Elija una fila en la tabla para ver y editar sus roles.</span>
+                </div>
+                <div id="membresias-detail-form" class="iam-membresias-detail-form">
+                  <div class="iam-panel-head">
+                    <h2 class="iam-panel-title" id="membresias-form-title">Roles del usuario</h2>
+                    <p class="iam-panel-desc" id="membresias-form-sub"></p>
+                  </div>
+                  <div class="iam-role-pantallas-block iam-membresias-roles-block">
+                    <div class="iam-toolbar iam-role-pantallas-toolbar iam-membresias-roles-toolbar">
+                      <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                        <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input
+                          type="search"
+                          id="membresias-roles-search"
+                          placeholder="Buscar rol por código o nombre…"
+                          autocomplete="off"
+                          aria-label="Buscar roles para membresía"
+                        />
+                      </div>
+                    </div>
+                    <div class="iam-table-scroll iam-role-pantallas-table-wrap iam-membresias-roles-table-wrap">
+                      <table class="dyn-table iam-data-table iam-role-pantallas-table">
+                        <thead>
+                          <tr>
+                            <th class="iam-col-check"></th>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                          </tr>
+                        </thead>
+                        <tbody id="membresias-roles-tbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="iam-form-actions">
+                    <button type="button" class="btn-fluent" id="btn-membresias-save">Guardar</button>
+                    <button type="button" class="btn-fluent btn-fluent-secondary" id="btn-membresias-cancel">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Bloqueados -->
+          <section id="view-bloqueados" class="iam-view app-view iam-view-split">
+            <div class="iam-master-detail">
+              <div class="iam-list-panel">
+                <div class="iam-panel-head">
+                  <h2 class="iam-panel-title">Usuarios bloqueados</h2>
+                  <p class="iam-panel-desc">Cuentas bloqueadas por intentos fallidos de inicio de sesión.</p>
+                </div>
+                <div class="iam-toolbar">
+                  <div class="iam-toolbar-search iam-toolbar-search--integrated">
+                    <span class="iam-search-icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" id="blocked-search" placeholder="Buscar usuario…" autocomplete="off" aria-label="Buscar bloqueados" />
+                  </div>
+                </div>
+                <div class="iam-table-scroll">
+                  <table class="dyn-table iam-data-table">
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th>Bloqueado</th>
+                        <th>Intentos</th>
+                      </tr>
+                    </thead>
+                    <tbody id="blocked-tbody"></tbody>
+                  </table>
+                </div>
+                <div class="iam-pagination-wrap" id="blocked-pagination" aria-label="Paginación"></div>
+              </div>
+              <div class="iam-detail-panel" id="blocked-detail-wrap">
+                <div id="blocked-detail-empty" class="iam-detail-empty">
+                  <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                  <strong>Seleccione un usuario</strong>
+                  <span>Elija una fila para ver el detalle y desbloquear.</span>
+                </div>
+                <div id="blocked-detail-body" class="iam-membresias-detail-form">
+                  <div class="iam-panel-head">
+                    <h2 class="iam-panel-title" id="blocked-detail-title">Usuario bloqueado</h2>
+                    <p class="iam-panel-desc" id="blocked-detail-sub"></p>
+                  </div>
+                  <form id="blocked-form" class="iam-pantalla-form" onsubmit="return false">
+                    <div class="iam-pantalla-form-grid">
+                      <div class="dyn-field iam-pantalla-field iam-span-2">
+                        <label for="b-username">Nombre usuario</label>
+                        <input type="text" id="b-username" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field">
+                        <label for="b-primer-nombre">1er. nombre</label>
+                        <input type="text" id="b-primer-nombre" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field">
+                        <label for="b-segundo-nombre">2do. nombre</label>
+                        <input type="text" id="b-segundo-nombre" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field">
+                        <label for="b-primer-apellido">1er. apellido</label>
+                        <input type="text" id="b-primer-apellido" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field">
+                        <label for="b-segundo-apellido">2do. apellido</label>
+                        <input type="text" id="b-segundo-apellido" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field iam-span-2">
+                        <label for="b-email">Correo electrónico</label>
+                        <input type="email" id="b-email" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field">
+                        <label for="b-locked-at">Bloqueado el</label>
+                        <input type="text" id="b-locked-at" readonly />
+                      </div>
+                      <div class="dyn-field iam-pantalla-field">
+                        <label for="b-failed-attempts">Intentos fallidos</label>
+                        <input type="text" id="b-failed-attempts" readonly />
+                      </div>
+                      <div class="iam-pantalla-activa-row">
+                        <span class="iam-pantalla-activa-label iam-caption-inactiva" id="b-unlock-caption">Desbloquear</span>
+                        <div class="iam-switch" title="Desbloquear usuario">
+                          <input type="checkbox" id="b-unlock" class="iam-switch-input" role="switch" aria-labelledby="b-unlock-caption" />
+                          <label for="b-unlock" class="iam-switch-track"><span class="iam-switch-thumb"></span></label>
+                        </div>
+                      </div>
+                      <div class="dyn-field iam-pantalla-field" id="b-password-wrap" style="display: none">
+                        <label for="b-password">Nueva contraseña</label>
+                        <div class="iam-user-password-main">
+                          <input type="password" id="b-password" class="iam-user-password-input" autocomplete="new-password" />
+                          <button type="button" class="iam-user-password-gen" id="b-gen-btn" title="Generar contraseña" aria-label="Generar contraseña">
+                            <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+                          </button>
+                          <button type="button" class="iam-user-password-eye" id="b-password-eye" title="Mostrar u ocultar contraseña" aria-label="Mostrar u ocultar contraseña">
+                            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                        <div class="iam-user-password-options">
+                          <label class="iam-inline-check">
+                            <input type="checkbox" id="b-temporal" /> Temporal
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="iam-form-actions">
+                      <button type="button" class="btn-fluent" id="btn-blocked-save">Guardar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/iam/00-core.js"></script>
+    <script src="/js/iam/10-pantallas.js"></script>
+    <script src="/js/iam/20-roles.js"></script>
+    <script src="/js/iam/30-users.js"></script>
+    <script src="/js/iam/40-events-init.js"></script>
+  </body>
+</html>

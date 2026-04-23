@@ -1,0 +1,199 @@
+/* Inicio de sesión — paleta HIS-PIPITOS (tailwind-app :root) */
+.login-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--pipito-ink);
+  background: var(--pipito-cream);
+}
+
+.login-layout {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+@media (min-width: 900px) {
+  .login-layout {
+    flex-direction: row;
+  }
+}
+
+/* Franja superior tipo barra de aplicación */
+.login-strip {
+  height: 4px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, var(--pipito-teal-dark) 0%, var(--pipito-teal) 50%, var(--pipito-amber) 100%);
+}
+
+@media (min-width: 900px) {
+  .login-strip {
+    display: none;
+  }
+}
+
+.login-aside {
+  flex: 0 0 auto;
+  background: linear-gradient(160deg, var(--pipito-teal-dark) 0%, var(--pipito-teal) 48%, #0d9488 100%);
+  color: #fff;
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-aside::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 20% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 80%, rgba(254, 243, 199, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+@media (min-width: 900px) {
+  .login-aside {
+    flex: 0 0 42%;
+    max-width: 520px;
+    min-height: 100vh;
+    padding: 3rem 2.5rem;
+  }
+}
+
+.login-aside-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+}
+
+.login-brand-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.login-brand-sub {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.92;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.login-brand-badge {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.login-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+  background: linear-gradient(180deg, #ffffff 0%, var(--pipito-cream) 100%);
+}
+
+@media (min-width: 900px) {
+  .login-main {
+    padding: 2rem; }
+}
+
+.login-card-wrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card {
+  padding: 2rem 1.75rem;
+  border-radius: 0.875rem;
+  border: 1px solid #e7e5e4;
+  box-shadow: 0 8px 32px rgba(17, 94, 89, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: #fff;
+}
+
+.login-form-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--pipito-teal-dark);
+}
+
+.login-form-hint {
+  margin: 0 0 1.5rem;
+  font-size: 0.875rem;
+  color: var(--pipito-muted);
+  line-height: 1.45;
+}
+
+.login-field {
+  margin-bottom: 1.1rem;
+}
+
+.login-field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pipito-muted);
+  margin-bottom: 0.4rem;
+}
+
+.login-field .input {
+  margin-top: 0;
+}
+
+.login-error {
+  font-size: 0.875rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+.login-error.is-visible {
+  display: block;
+}
+
+.login-submit {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.login-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e7e5e4;
+  text-align: center;
+}
+
+.login-footer a {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--pipito-teal);
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  color: var(--pipito-teal-dark);
+  text-decoration: underline;
+}

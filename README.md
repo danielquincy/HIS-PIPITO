@@ -29,34 +29,35 @@ CRM e historial clínico (HIS) para **Los Pipitos**: citas, agenda, pacientes, r
 
 Recursos en la ruta `images\` (referencia: `C:\Desarrollo\HIS-PIPITO\images`). Útil para documentación, mockups o material de apoyo. Para enlazar desde Markdown en la raíz del repo:
 
+
 | # | Ruta en el repositorio |
 |---|------------------------|
-| 1 | `images/1.jpg` |
-| 2 | `images/2.jpg` |
-| 3 | `images/3.jpg` |
-| 4 | `images/4.jpg` |
-| 5 | `images/5.jpg` |
-| 6 | `images/6.jpg` |
-| 7 | `images/7.jpg` |
-| 8 | `images/8.jpg` |
-| 9 | `images/9.jpg` |
-| 10 | `images/10.jpg` |
-| 11 | `images/11.jpg` |
-| 12 | `images/12.jpg` |
-| 13 | `images/13.jpg` |
-| 14 | `images/14.jpg` |
-| 15 | `images/15.jpg` |
-| 16 | `images/16.jpg` |
-| 17 | `images/17.jpg` |
-| 18 | `images/18.jpg` |
-| 19 | `images/19.jpg` |
-| 20 | `images/20.jpg` |
-| 21 | `images/21.jpg` |
-| 22 | `images/22.jpg` |
-| 23 | `images/23.jpg` |
-| 24 | `images/24.jpg` |
-| 25 | `images/25.jpg` |
-| 26 | `images/26.jpg` |
+| 1 | ![Imagen](images/1.jpg) |
+| 2 | ![Imagen](images/2.jpg) |
+| 3 | ![Imagen](images/3.jpg) |
+| 4 | ![Imagen](images/4.jpg) |
+| 5 | ![Imagen](images/5.jpg) |
+| 6 | ![Imagen](images/6.jpg) |
+| 7 | ![Imagen](images/7.jpg) |
+| 8 | ![Imagen](images/8.jpg) |
+| 9 | ![Imagen](images/9.jpg) |
+| 10 |![Imagen](images/10.jpg) |
+| 11 |![Imagen](images/11.jpg) |
+| 12 |![Imagen](images/12.jpg) |
+| 13 |![Imagen](images/13.jpg) |
+| 14 |![Imagen](images/14.jpg) |
+| 15 |![Imagen](images/15.jpg) |
+| 16 |![Imagen](images/16.jpg) |
+| 17 |![Imagen](images/17.jpg) |
+| 18 |![Imagen](images/18.jpg) |
+| 19 |![Imagen](images/19.jpg) |
+| 20 |![Imagen](images/20.jpg) |
+| 21 |![Imagen](images/21.jpg) |
+| 22 |![Imagen](images/22.jpg) |
+| 23 |![Imagen](images/23.jpg) |
+| 24 |![Imagen](images/24.jpg) |
+| 25 |![Imagen](images/25.jpg) |
+| 26 |![Imagen](images/26.jpg) |
 
 Vista previa (ejemplo): `![Captura 1](images/1.jpg)` (según el visor de Markdown que use el equipo).
 

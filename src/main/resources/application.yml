@@ -1,0 +1,51 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: his-pipitos
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 30MB
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/his-pipitos}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    # Base ya creada con scripts manuales (psql): el esquema tiene tablas pero no existe
+    # flyway_schema_history. Con baselineOnMigrate, Flyway registra un baseline y no reejecuta V1..V17.
+    # baseline-version debe ser > última migración: Flyway ignora versiones estrictamente inferiores;
+    # con 18 se omiten V1..V17. En base de datos vacía Flyway aplica V1..V17 con normalidad (no usa baseline).
+    baseline-on-migrate: true
+    baseline-version: 18
+
+his:
+  issuer-uri: ${HIS_ISSUER_URI:http://localhost:8080}
+  storage-path: ${HIS_STORAGE_PATH:./data/uploads}
+  admin:
+    username: ${HIS_ADMIN_USER:admin}
+    password: ${HIS_ADMIN_PASSWORD:admin123}
+  # Roles con acceso al subsistema IAM (pantalla de elección y /iam). Lista vacía en YAML = usar por defecto.
+  iam-master-roles:
+    - ROLE_ADMIN
+    - ROLE_IAM_MASTER
+
+logging:
+  level:
+    org.springframework.security: INFO
+    # Consultas SQL generadas por Hibernate (DEBUG = SQL; TRACE = además parámetros enlazados)
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE

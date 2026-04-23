@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HIS-PIPITOS — Inicio de sesión</title>
+    <link rel="stylesheet" href="/css/tailwind-app.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-strip" aria-hidden="true"></div>
+    <div class="login-layout">
+      <aside class="login-aside">
+        <div class="login-aside-inner">
+          <h1 class="login-brand-title">HIS-PIPITOS</h1>
+          <p class="login-brand-sub">Atención médica especializada. Gestión de citas, pacientes e identidad de acceso.</p>
+          <span class="login-brand-badge">Los Pipitos</span>
+        </div>
+      </aside>
+      <main class="login-main">
+        <div class="login-card-wrap">
+          <div class="login-card">
+            <h2 class="login-form-title">Iniciar sesión</h2>
+            <p class="login-form-hint">Ingrese su usuario y contraseña para acceder al sistema.</p>
+            <div id="error" class="login-error" role="alert"></div>
+            <form id="login-form" autocomplete="on">
+              <div class="login-field">
+                <label for="username">Usuario</label>
+                <input class="input" id="username" name="username" type="text" autocomplete="username" required />
+              </div>
+              <div class="login-field">
+                <label for="password">Contraseña</label>
+                <input class="input" id="password" name="password" type="password" autocomplete="current-password" required />
+              </div>
+              <button type="submit" class="btn btn-primary login-submit">Entrar</button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="/js/app.js"></script>
+    <script>
+      document.getElementById("login-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var err = document.getElementById("error");
+        err.textContent = "";
+        err.classList.remove("is-visible");
+        var u = document.getElementById("username").value;
+        var p = document.getElementById("password").value;
+        try {
+          var res = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: u, password: p }),
+          });
+          if (!res.ok) {
+            var body = await res.json().catch(function () {
+              return {};
+            });
+            throw new Error(body.message || "Error de autenticación");
+          }
+          var data = await res.json();
+          HisAuth.setToken(data.accessToken);
+          var meRes = await fetch("/api/auth/me", {
+            headers: { Authorization: "Bearer " + data.accessToken },
+          });
+          if (!meRes.ok) {
+            throw new Error("No se pudo validar la sesión");
+          }
+          var me = await meRes.json();
+          if (me.passwordMustChange) {
+            window.location.href = "/change-password.html";
+            return;
+          }
+          if (me.iamMaster) {
+            window.location.href = "/launcher.html";
+          } else {
+            window.location.href = "/app/pages/inicio.html";
+          }
+        } catch (x) {
+          err.textContent = x.message || "Error";
+          err.classList.add("is-visible");
+        }
+      });
+    </script>
+  </body>
+</html>

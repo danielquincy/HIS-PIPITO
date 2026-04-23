@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Elegir aplicación — HIS-PIPITOS</title>
+    <link rel="stylesheet" href="/css/tailwind-app.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/shell.css" />
+    <style>
+      .launcher-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .launcher-card {
+        background: var(--fluent-surface);
+        border: 1px solid var(--fluent-border);
+        border-radius: 4px;
+        box-shadow: var(--fluent-shadow);
+        padding: 28px 24px;
+        text-decoration: none;
+        color: var(--fluent-text);
+        transition: box-shadow 0.15s ease, border-color 0.15s ease;
+        display: block;
+      }
+      .launcher-card:hover {
+        border-color: var(--fluent-blue);
+        box-shadow: 0 4px 14px rgba(0, 120, 212, 0.2);
+      }
+      .launcher-card h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        color: var(--fluent-blue);
+      }
+      .launcher-card p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--fluent-text-secondary);
+        line-height: 1.5;
+      }
+      .launcher-card .tag {
+        display: inline-block;
+        margin-top: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--fluent-text-secondary);
+      }
+    </style>
+  </head>
+  <body class="shell-body">
+    <div class="app-shell" style="min-height: 100vh; flex-direction: column">
+      <header class="app-topbar" style="flex-shrink: 0; display: flex; align-items: center; gap: 12px">
+        <h1 style="margin: 0"><b>HIS-PIPITOS</b> Portal de Acceso</h1>
+        <div class="app-topbar-actions">
+          <span id="session-user-name" class="shell-session-name shell-session-name--on-blue" title=""></span>
+          <button type="button" class="shell-logout-btn shell-logout-btn--on-blue" id="logout">
+            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i><span>Cerrar sesión</span>
+          </button>
+        </div>
+      </header>
+      <div class="app-body" style="flex: 1">
+        <p class="dyn-muted" style="text-align: center; margin-bottom: 24px">
+          Seleccione una aplicación.
+        </p>
+        <div class="launcher-grid" id="launcher-grid">
+          <a class="launcher-card" href="/app/pages/inicio.html">
+            <span class="tag">Clínico</span>
+            <h2>HIS-PIPITOS</h2>
+            <p>Pacientes, citas, especialistas, catálogos, reportes operativos y panel clínico.</p>
+          </a>
+          <a class="launcher-card" href="/iam/index.html">
+            <span class="tag">Identidad</span>
+            <h2>IAM</h2>
+            <p>Gestión de usuarios, roles y asignaciones (administración de identidad y acceso).</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <script src="/js/app.js"></script>
+    <script>
+      document.getElementById("logout").onclick = function () {
+        HisAuth.logout();
+      };
+      (async function () {
+        if (!HisAuth.requireAuth()) return;
+        try {
+          var res = await apiFetch("/api/auth/me");
+          if (!res.ok) {
+            HisAuth.logout();
+            return;
+          }
+          var me = await res.json();
+          var nameEl = document.getElementById("session-user-name");
+          if (nameEl) {
+            var n = (me.displayName || me.username || "").trim() || "Usuario";
+            nameEl.textContent = n;
+            nameEl.setAttribute("title", n);
+          }
+          if (me.passwordMustChange) {
+            window.location.replace("/change-password.html");
+            return;
+          }
+          if (!me.iamMaster) {
+            window.location.replace("/app/pages/inicio.html");
+          }
+        } catch (e) {
+          HisAuth.logout();
+        }
+      })();
+    </script>
+  </body>
+</html>
