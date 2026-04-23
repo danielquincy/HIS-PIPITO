@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: his-pipitos-app
+    environment:
+      SERVER_PORT: "8080"
+      HIS_ISSUER_URI: http://localhost:8080
+      HIS_STORAGE_PATH: /data/uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - his_uploads:/data/uploads
+
+volumes:
+  his_uploads:
